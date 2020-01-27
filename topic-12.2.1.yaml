@@ -1,0 +1,47 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: CFN template to create a DynamoDB table.
+
+Resources:
+  SampleTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      AttributeDefinitions: 
+        - AttributeName: ID
+          AttributeType: N
+      KeySchema: 
+        - AttributeName: ID
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      TableName: stellinu12
+
+  IAMRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - dynamodb.amazonaws.com
+      ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/AmazonDynamoDBReadOnlyAccess
+
+
+  # IAMPolicy:
+  #   Type: AWS::IAM::ManagedPolicy
+  #   Properties:
+  #     Roles:
+  #       - !Ref IAMRole
+  #     PolicyDocument:
+  #       Version: "2012-10-17"
+  #       Statement:          
+  #         - Effect: Allow
+  #           Action:
+  #             - dynamodb:*
+  #           Resource: "*"1.yaml
